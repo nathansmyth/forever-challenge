@@ -23,3 +23,8 @@ group :development, :test do
   gem 'faker'
   gem 'pry'
 end
+
+group :test do
+  gem 'factory_girl'
+  gem 'mocha'
+end
