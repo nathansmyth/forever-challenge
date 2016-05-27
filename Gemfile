@@ -15,7 +15,6 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 group :development do
   gem 'web-console', '~> 2.0'
   gem 'spring'
-  gem 'rspec-rails'
 end
 
 group :development, :test do
@@ -25,6 +24,8 @@ group :development, :test do
 end
 
 group :test do
-  gem 'factory_girl'
+  gem 'rspec-rails'
   gem 'mocha'
+  gem 'factory_girl_rails'
+  gem 'database_cleaner'
 end
