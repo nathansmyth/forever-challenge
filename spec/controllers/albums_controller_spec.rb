@@ -28,7 +28,7 @@ RSpec.describe AlbumsController, type: :controller do
       it 'destroys the album' do
       end
 
-      it 'responds with 200' do
+      it 'responds with 201' do
         post :create, album: attributes_for(:album), format: :json
         expect(response).to have_http_status(201)
       end
@@ -42,7 +42,7 @@ RSpec.describe AlbumsController, type: :controller do
       end
 
       it 'does not create the album' do
-        post :create, album: attributes_for(:album, year: nil), format: :json
+        post :create, album: attributes_for(:album).except(:name), format: :json
         expect(Album.count).to eq(0)
       end
 
@@ -52,8 +52,8 @@ RSpec.describe AlbumsController, type: :controller do
       it 'does not destroy the album' do
       end
 
-      it 'responds with 400' do
-        post :create, album: attributes_for(:album, year: nil), format: :json
+      it 'responds with 422' do
+        post :create, album: attributes_for(:album).except(:name), format: :json
         expect(response).to have_http_status(422)
       end
     end
