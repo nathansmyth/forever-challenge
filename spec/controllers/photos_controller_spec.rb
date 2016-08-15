@@ -11,7 +11,7 @@ RSpec.describe PhotosController, type: :controller do
       end
 
       it 'creates the photo' do
-        post :create, photo: attributes_for(:photo), format: :json
+        post :create, attributes_for(:photo), format: :json
         expect(Photo.count).to eq(1)
       end
 
@@ -21,8 +21,8 @@ RSpec.describe PhotosController, type: :controller do
       it 'destroys the photo' do
       end
 
-      it 'responds with 200' do
-        post :create, photo: attributes_for(:photo), format: :json
+      it 'responds with 201' do
+        post :create, attributes_for(:photo), format: :json
         expect(response).to have_http_status(201)
       end
     end
@@ -35,7 +35,7 @@ RSpec.describe PhotosController, type: :controller do
       end
 
       it 'does not create the photo' do
-        post :create, photo: attributes_for(:photo, year: nil), format: :json
+        post :create, attributes_for(:photo, name: nil), format: :json
         expect(Photo.count).to eq(0)
       end
 
@@ -45,8 +45,8 @@ RSpec.describe PhotosController, type: :controller do
       it 'does not destroy the photo' do
       end
 
-      it 'responds with 400' do
-        post :create, photo: attributes_for(:photo, year: nil), format: :json
+      it 'responds with 422' do
+        post :create, attributes_for(:photo, name: nil), format: :json
         expect(response).to have_http_status(422)
       end
     end
