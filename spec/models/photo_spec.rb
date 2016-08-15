@@ -4,21 +4,33 @@ require 'rails_helper'
 # and a url that ends with the string ".jpeg" or ".jpg".
 
 RSpec.describe Photo, type: :model do
-  it 'has a name' do
-    expect(Photo.name).to be
-  end
+  context 'with valid attributes' do
+    it 'has a name' do
+      expect(Photo.name).to be
+    end
 
-  it 'has a valid factory' do
-    expect(build(:photo)).to be_valid
-  end
+    it 'has a valid factory' do
+      expect(build(:photo)).to be_valid
+    end
 
-  it 'is invalid without a name' do
-    expect(build(:photo, name: nil)).to_not be_valid
-  end
+    it 'belongs to an album' do
+    end
 
-  it 'belongs to an album' do
+    it 'has url ending with jpeg or jpg' do
+      expect(build(:photo, url: 'http://domain.com/photo.jpg')).to be_valid
+      expect(build(:photo, url: 'http://domain.com/photo.jpeg')).to be_valid
+    end
   end
+  context 'with invalid attributes' do
+    it 'is invalid without a name' do
+      expect(build(:photo, name: nil)).to_not be_valid
+    end
 
-  it 'has url ending with jpeg or jpg' do
+    it 'has url NOT ending with jpeg or jpg' do
+      expect(build(:photo, url: 'http://domain.com/photo.htm')).to_not be_valid
+      expect(build(:photo, url: 'http://domain.com/photo.png')).to_not be_valid
+      expect(build(:photo, url: 'http://domain.com/photo.fla')).to_not be_valid
+      expect(build(:photo, url: 'http://domain.com/photo.psd')).to_not be_valid
+    end
   end
 end
