@@ -6,7 +6,7 @@
     album.photos.create(
       name: Faker::Lorem.word.capitalize,
       description: Faker::Lorem.sentence,
-      url: Faker::Avatar.image(SecureRandom.hex, '50x50', 'jpg'),
+      url: Faker::Avatar.image(SecureRandom.hex, '50x50', 'jpg') + '.jpg',
       taken_at: Time.now - rand(100).days
     )
   end
