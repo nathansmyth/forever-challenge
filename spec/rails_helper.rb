@@ -5,8 +5,14 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'spec_helper'
 require 'rspec/rails'
-
 require 'factory_girl_rails'
+
+def populate_albums
+  @albums = []
+  15.times { @albums << FactoryGirl.create(:album) }
+end
+
+
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   FactoryGirl.definition_file_paths = [File.expand_path('../factories', __FILE__)]
