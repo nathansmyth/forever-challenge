@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 # basic API index, show, create, update, destroy
-# index returns JSON of all values + total_count
 # show returns data for each photo in album
 # pagination max 10 items per page
 # multiple photos can be added in single request
@@ -12,6 +11,13 @@ RSpec.describe AlbumsController, type: :controller do
   context 'json' do
     context 'with valid attributes' do
       it 'lists the albums' do
+        populate_albums
+        get :index
+        expect(response).to have_http_status(200)
+
+        data = JSON.parse(response.body, object_class: OpenStruct)
+        expect(data.albums.count).to eq(15)
+        expect(data.albums[0].photo_count).to be >= 0
       end
 
       it 'shows the album' do
