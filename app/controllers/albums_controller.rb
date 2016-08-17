@@ -1,6 +1,17 @@
 class AlbumsController < ApplicationController
   respond_to :json
 
+  def index
+    albums = Album.all.map { |album|
+      album.serializable_hash.merge(
+        {'photo_count' => album.photos.count}
+      )
+    }
+    render json: {
+      albums: albums
+    }, status: :ok
+  end
+
   def create
     @album = Album.new(album_params)
     if @album.save
