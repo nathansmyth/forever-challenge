@@ -2,7 +2,8 @@ class AlbumsController < ApplicationController
   respond_to :json
 
   def index
-    albums = Album.all.map { |album|
+    albums_page = (params[:page].nil?) ? Album.page : Album.page(params[:page])
+    albums = albums_page.map { |album|
       album.serializable_hash.merge(
         {'photo_count' => album.photos.count}
       )
