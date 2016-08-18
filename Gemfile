@@ -13,6 +13,7 @@ gem 'jquery-rails', '4.1.1'
 gem 'turbolinks', '2.5.3'
 gem 'jbuilder', '2.4.1'
 gem 'sdoc', '0.4.1', group: :doc
+gem 'kaminari', '0.17.0'
 
 group :development do
   gem 'web-console', '3.0.0'
