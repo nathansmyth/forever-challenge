@@ -43,6 +43,11 @@ RSpec.describe AlbumsController, type: :controller do
       end
 
       it 'shows the album' do
+        populate_albums_photos
+        get :show, {:id => 1}
+
+        data = JSON.parse(response.body)
+        expect(data['album']['photos'].count).to eq(20)
       end
 
       it 'creates the album' do
