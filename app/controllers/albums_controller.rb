@@ -13,6 +13,16 @@ class AlbumsController < ApplicationController
     }, status: :ok
   end
 
+  def show
+    album_show = Album.find(params[:id])
+    album = album_show.serializable_hash.merge(
+      {'photos' => album_show.photos}
+    )
+    render json: {
+      album: album
+    }
+  end
+
   def create
     @album = Album.new(album_params)
     if @album.save
