@@ -1,5 +1,6 @@
 require 'rails_helper'
 # basic API index, show, create, update, destroy
+# pagination max 10 items per page
 
 RSpec.describe PhotosController, type: :controller do
   context 'json' do
@@ -11,8 +12,9 @@ RSpec.describe PhotosController, type: :controller do
       end
 
       it 'creates the photo' do
-        post :create, attributes_for(:photo), format: :json
-        expect(Photo.count).to eq(1)
+        how_many = Photo.count
+        post :create, build(:photo).attributes, format: :json
+        expect(Photo.count).to eq(how_many + 1)
       end
 
       it 'updates the photo' do
@@ -22,7 +24,7 @@ RSpec.describe PhotosController, type: :controller do
       end
 
       it 'responds with 201' do
-        post :create, attributes_for(:photo), format: :json
+        post :create, build(:photo).attributes, format: :json
         expect(response).to have_http_status(201)
       end
     end
@@ -35,8 +37,9 @@ RSpec.describe PhotosController, type: :controller do
       end
 
       it 'does not create the photo' do
-        post :create, attributes_for(:photo, name: nil), format: :json
-        expect(Photo.count).to eq(0)
+        how_many = Photo.count
+        post :create, build(:photo, name: nil).attributes, format: :json
+        expect(Photo.count).to eq(how_many)
       end
 
       it 'does not update the photo' do
@@ -46,7 +49,7 @@ RSpec.describe PhotosController, type: :controller do
       end
 
       it 'responds with 422' do
-        post :create, attributes_for(:photo, name: nil), format: :json
+        post :create, build(:photo, name: nil).attributes, format: :json
         expect(response).to have_http_status(422)
       end
     end

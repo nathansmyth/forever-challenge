@@ -1,6 +1,6 @@
 class PhotosController < ApplicationController
   def create
-    @photo = Photo.new(photo_params)
+    @photo = Album.find(photo_params[:album_id]).photos.new(photo_params)
     if @photo.save
       render json: @photo, status: :created
     else
@@ -11,6 +11,6 @@ class PhotosController < ApplicationController
   private
 
   def photo_params
-    params.permit(:name, :description, :url, :taken_at)
+    params.permit(:album_id, :name, :description, :url, :taken_at)
   end
 end

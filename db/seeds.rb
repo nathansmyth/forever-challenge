@@ -4,6 +4,7 @@
 
   50.times do |photo_index|
     album.photos.create(
+      album_id: album_index,
       name: Faker::Lorem.word.capitalize,
       description: Faker::Lorem.sentence,
       url: Faker::Avatar.image(SecureRandom.hex, '50x50', 'jpg') + '.jpg',

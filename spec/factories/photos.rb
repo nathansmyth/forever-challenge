@@ -4,5 +4,6 @@ FactoryGirl.define do
     description   { Faker::Hacker.say_something_smart }
     url           { Faker::Placeholdit.image + '.jpg' }
     taken_at      { Faker::Date.between(1.year.ago, 1.month.ago) }
+    association   :album, :factory => :album
   end
 end

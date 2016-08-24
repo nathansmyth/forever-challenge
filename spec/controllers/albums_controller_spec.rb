@@ -71,12 +71,15 @@ RSpec.describe AlbumsController, type: :controller do
       it 'does not list the albums' do
       end
 
-      it 'does not show the album' do
+      it 'does not hold more than 60 photos' do
+        over_populate_album
+        expect(Album.find(1).photos.count).to be <= 60
       end
 
       it 'does not create the album' do
+        how_many = Album.count
         post :create, album: attributes_for(:album).except(:name), format: :json
-        expect(Album.count).to eq(0)
+        expect(Album.count).to eq(how_many)
       end
 
       it 'does not update the album' do

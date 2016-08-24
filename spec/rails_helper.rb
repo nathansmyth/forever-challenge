@@ -18,6 +18,7 @@ def populate_albums_photos
     album = FactoryGirl.create(:album)
     20.times do |photo_index|
       album.photos.create(
+        album_id: album_index,
         name: Faker::Lorem.word.capitalize,
         description: Faker::Lorem.sentence,
         url: Faker::Avatar.image(SecureRandom.hex, '50x50', 'jpg') + '.jpg',
@@ -25,6 +26,20 @@ def populate_albums_photos
       )
     end
     @albums << album
+  end
+end
+
+def over_populate_album
+  @albums = []
+  album = FactoryGirl.create(:album)
+  70.times do |photo_index|
+    album.photos.create(
+      album_id: album.id,
+      name: Faker::Lorem.word.capitalize,
+      description: Faker::Lorem.sentence,
+      url: Faker::Avatar.image(SecureRandom.hex, '50x50', 'jpg') + '.jpg',
+      taken_at: Time.now - rand(100).days
+    )
   end
 end
 
