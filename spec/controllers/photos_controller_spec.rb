@@ -8,6 +8,22 @@ RSpec.describe PhotosController, type: :controller do
       it 'lists the photos' do
       end
 
+      it 'paginates the photos, 10 at a time' do
+        populate_albums_photos
+        get :index, {:album_id => 1}
+
+        data = JSON.parse(response.body, object_class: OpenStruct)
+        expect(data.photos.count).to eq(10)
+      end
+
+      it 'paginates the photos, with page index param' do
+        populate_albums_photos
+        get :index, {:album_id => 1, :page => 2}
+
+        data = JSON.parse(response.body, object_class: OpenStruct)
+        expect(data.photos.count).to eq(5)
+      end
+
       it 'shows the photo' do
       end
 
@@ -30,7 +46,20 @@ RSpec.describe PhotosController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      it 'does not list the photos' do
+      it 'does not list the photos without album id' do
+        populate_albums_photos
+        get :index
+
+        data = JSON.parse(response.body, object_class: OpenStruct)
+        expect(data.error).to be
+      end
+
+      it 'does not paginate the photos past album count' do
+        populate_albums_photos
+        get :index, {:album_id => 1, :page =>100}
+
+        data = JSON.parse(response.body, object_class: OpenStruct)
+        expect(data.photos.count).to eq(0)
       end
 
       it 'does not show the photo' do

@@ -16,7 +16,7 @@ def populate_albums_photos
   @albums = []
   15.times do |album_index|
     album = FactoryGirl.create(:album)
-    20.times do |photo_index|
+    15.times do |photo_index|
       album.photos.create(
         album_id: album_index,
         name: Faker::Lorem.word.capitalize,

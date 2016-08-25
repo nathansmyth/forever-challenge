@@ -47,7 +47,7 @@ RSpec.describe AlbumsController, type: :controller do
         get :show, {:id => 1}
 
         data = JSON.parse(response.body)
-        expect(data['album']['photos'].count).to eq(20)
+        expect(data['album']['photos'].count).to eq(15)
       end
 
       it 'creates the album' do
