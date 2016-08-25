@@ -68,7 +68,10 @@ RSpec.describe AlbumsController, type: :controller do
     end
 
     context 'with invalid attributes' do
-      it 'does not list the albums' do
+      it 'does not show the album without id' do
+        expect {
+          get :show
+        }.to raise_error(ActionController::UrlGenerationError)
       end
 
       it 'does not hold more than 60 photos' do
