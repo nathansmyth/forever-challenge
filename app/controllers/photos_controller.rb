@@ -2,11 +2,11 @@ class PhotosController < ApplicationController
   respond_to :json
 
   def index
-    if params[:album_id].nil?
+    if photo_params[:album_id].nil?
       render json: {error: 'Album ID Required'}, status: :unprocessable_entity
     else
-      album = Album.find(params[:album_id])
-      photos_page = (params[:page].nil?) ? album.photos.page : album.photos.page(params[:page])
+      album = Album.find(photo_params[:album_id])
+      photos_page = (photo_params[:page].nil?) ? album.photos.page : album.photos.page(photo_params[:page])
       photos = photos_page.map { |photo|
         photo.serializable_hash.merge(
           {'photo_count' => album.photos.count}
@@ -16,6 +16,11 @@ class PhotosController < ApplicationController
         photos: photos
       }, status: :ok
     end
+  end
+
+  def show
+    @photo = Photo.find(photo_params[:id])
+    render json: @photo, status: :ok
   end
 
   def create
@@ -30,6 +35,6 @@ class PhotosController < ApplicationController
   private
 
   def photo_params
-    params.permit(:album_id, :name, :description, :url, :taken_at)
+    params.permit(:id, :album_id, :name, :description, :url, :taken_at, :page)
   end
 end

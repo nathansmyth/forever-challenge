@@ -1,14 +1,10 @@
 require 'rails_helper'
 # basic API index, show, create, update, destroy
-# pagination max 10 items per page
 
 RSpec.describe PhotosController, type: :controller do
   context 'json' do
     context 'with valid attributes' do
-      it 'lists the photos' do
-      end
-
-      it 'paginates the photos, 10 at a time' do
+      it 'lists the photos, paginated 10 at a time' do
         populate_albums_photos
         get :index, {:album_id => 1}
 
@@ -25,6 +21,12 @@ RSpec.describe PhotosController, type: :controller do
       end
 
       it 'shows the photo' do
+        populate_albums_photos
+        get :show, {:id => 55}
+
+        data = JSON.parse(response.body, object_class: OpenStruct)
+        expect(data.id).to eq(55)
+        expect(data.album_id).to eq(4)
       end
 
       it 'creates the photo' do
@@ -63,6 +65,9 @@ RSpec.describe PhotosController, type: :controller do
       end
 
       it 'does not show the photo' do
+        expect {
+          get :show
+        }.to raise_error(ActionController::UrlGenerationError)
       end
 
       it 'does not create the photo' do
