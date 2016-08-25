@@ -35,6 +35,17 @@ RSpec.describe PhotosController, type: :controller do
         expect(Photo.count).to eq(how_many + 1)
       end
 
+      it 'creates a batch of photos' do
+        how_many = Photo.count
+        photos = {:photos => [
+          build(:photo).attributes,
+          build(:photo).attributes,
+          build(:photo).attributes
+        ]}
+        post :create, photos, format: :json
+        expect(Photo.count).to eq(how_many + 3)
+      end
+
       it 'updates the photo' do
       end
 
@@ -73,6 +84,19 @@ RSpec.describe PhotosController, type: :controller do
       it 'does not create the photo' do
         how_many = Photo.count
         post :create, build(:photo, name: nil).attributes, format: :json
+        expect(Photo.count).to eq(how_many)
+      end
+
+      it 'does not create a batch of photos' do
+        how_many = Photo.count
+        photos = {:photos => [
+          build(:photo).attributes.delete(:name),
+          build(:photo).attributes.delete(:album_id),
+          build(:photo).attributes
+        ]}
+        expect {
+          post :create, photos, format: :json
+        }.to raise_error(NoMethodError)
         expect(Photo.count).to eq(how_many)
       end
 
