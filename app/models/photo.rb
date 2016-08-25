@@ -1,10 +1,16 @@
 class Photo < ActiveRecord::Base
   belongs_to :album
+
   validates :album, presence: true
   validates :name, presence: true
   validates :url, presence: true
+
   validate :valid_url?
   validate :limit_60_photos
+
+  after_save do |photo|
+    photo.album.update_average_date
+  end
 
   private
   def valid_url?

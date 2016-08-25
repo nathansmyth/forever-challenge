@@ -24,11 +24,11 @@ class AlbumsController < ApplicationController
   end
 
   def create
-    @album = Album.new(album_params)
-    if @album.save
-      render json: @album, status: :created
+    album = Album.new(album_params)
+    if album.save
+      render json: album, status: :created
     else
-      render json: @album.errors, status: :unprocessable_entity
+      render json: album.errors, status: :unprocessable_entity
     end
   end
 

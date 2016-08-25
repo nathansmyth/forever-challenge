@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 # basic API index, show, create, update, destroy
-# show returns data for each photo in album
-# multiple photos can be added in single request
 #* add videos to album, return merged data
 #* photos can be added to multiple albums
 

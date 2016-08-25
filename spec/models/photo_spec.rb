@@ -1,7 +1,4 @@
 require 'rails_helper'
-# Ensure that every photo record belongs to an album,
-# has a name
-# and a url that ends with the string ".jpeg" or ".jpg".
 
 RSpec.describe Photo, type: :model do
   context 'with valid attributes' do
