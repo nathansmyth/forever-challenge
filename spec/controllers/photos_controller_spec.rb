@@ -1,5 +1,4 @@
 require 'rails_helper'
-# basic API index, show, create, update, destroy
 
 RSpec.describe PhotosController, type: :controller do
   context 'json' do
@@ -47,9 +46,17 @@ RSpec.describe PhotosController, type: :controller do
       end
 
       it 'updates the photo' do
+        populate_albums_photos
+        put :update, {id: 1, name: 'nathan'}, format: :json
+        expect(Photo.find(1).name).to eq('nathan')
       end
 
       it 'destroys the photo' do
+        populate_albums_photos
+        how_many = Photo.count
+
+        delete :destroy, id: 1
+        expect(Photo.count).to eq(how_many-1)
       end
 
       it 'responds with 201' do
@@ -101,9 +108,19 @@ RSpec.describe PhotosController, type: :controller do
       end
 
       it 'does not update the photo' do
+        populate_albums_photos
+        what_name = Photo.find(1).name
+        put :update, {id: 1, photo: {name: nil}}, format: :json
+        expect(Photo.find(1).name).to eq(what_name)
       end
 
       it 'does not destroy the photo' do
+        populate_albums_photos
+        how_many = Photo.count
+        expect {
+          delete :destroy, id: how_many + 99
+        }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(Photo.count).to eq(how_many)
       end
 
       it 'responds with 422' do

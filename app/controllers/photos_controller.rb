@@ -55,6 +55,24 @@ class PhotosController < ApplicationController
     render json: photos, status: :multi_status
   end
 
+  def update
+    photo = Photo.update(params[:id], photo_params)
+    if photo.save
+      render json: photo, status: :ok
+    else
+      render json: photo.errors, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    photo = Photo.find(params[:id])
+    if photo.destroy
+      render json: photo, status: :ok
+    else
+      render json: photo.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def photo_params

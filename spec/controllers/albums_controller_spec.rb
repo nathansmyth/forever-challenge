@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# basic API index, show, create, update, destroy
 #* add videos to album, return merged data
 #* photos can be added to multiple albums
 
@@ -59,9 +58,17 @@ RSpec.describe AlbumsController, type: :controller do
       end
 
       it 'updates the album' do
+        populate_albums
+        put :update, {id: 1, album: {name: 'nathan'}}, format: :json
+        expect(Album.find(1).name).to eq('nathan')
       end
 
       it 'destroys the album' do
+        populate_albums
+        how_many = Album.count
+
+        delete :destroy, id: 1
+        expect(Album.count).to eq(how_many-1)
       end
     end
 
@@ -84,9 +91,19 @@ RSpec.describe AlbumsController, type: :controller do
       end
 
       it 'does not update the album' do
+        populate_albums
+        what_name = Album.find(1).name
+        put :update, {id: 1, album: {name: nil}}, format: :json
+        expect(Album.find(1).name).to eq(what_name)
       end
 
       it 'does not destroy the album' do
+        populate_albums
+        how_many = Album.count
+        expect {
+          delete :destroy, id: 9999
+        }.to raise_error(ActiveRecord::RecordNotFound)
+        expect(Album.count).to eq(how_many)
       end
 
       it 'responds with 422' do

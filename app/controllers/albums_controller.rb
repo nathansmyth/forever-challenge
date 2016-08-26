@@ -32,9 +32,27 @@ class AlbumsController < ApplicationController
     end
   end
 
+  def update
+    album = Album.update(params[:id], album_params)
+    if album.save
+      render json: album, status: :ok
+    else
+      render json: album.errors, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    album = Album.find(params[:id])
+    if album.destroy
+      render json: album, status: :ok
+    else
+      render json: album.errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def album_params
-    params.require(:album).permit(:name, :position, :average_date)
+    params.require(:album).permit(:id, :name, :position, :average_date, :page)
   end
 end

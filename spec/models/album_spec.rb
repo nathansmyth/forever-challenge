@@ -12,7 +12,7 @@ RSpec.describe Album, type: :model do
 
     it 'has optional numeric position' do
       expect(build(:album, position: 5)).to be_valid
-      expect(build(:album)).to be_valid
+      expect(build(:album).position).to be
     end
 
     it 'has optional date average_date' do
